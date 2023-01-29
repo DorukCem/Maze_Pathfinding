@@ -2,7 +2,11 @@ import pygame
 from sys import exit
 from settings import *
 from grid import Grid
- 
+
+start_flag_surface = pygame.image.load("assests/start_flag.png")
+start_flag_surface = pygame.transform.scale(start_flag_surface, IMAGE_SIZE)
+end_flag_surface = pygame.image.load("assests/end_flag.png")
+end_flag_surface = pygame.transform.scale(end_flag_surface, IMAGE_SIZE)
 
 pygame.init()
 screen = pygame.display.set_mode((WIDTH , HEIGHT))
@@ -15,9 +19,9 @@ def draw_grid(grid):
             pygame.draw.rect(screen, cell.color , (x, y, CELL_SIZE, CELL_SIZE))
             pygame.draw.rect(screen, cell.border_color, (x, y, CELL_SIZE, CELL_SIZE), 1)
             if cell.flag == "Start":
-               pygame.draw.rect(screen, "Red" , (x, y, CELL_SIZE, CELL_SIZE))
+               screen.blit(start_flag_surface, (x, y))
             if cell.flag == "End":
-               pygame.draw.rect(screen, "Green" , (x, y, CELL_SIZE, CELL_SIZE))
+               screen.blit(end_flag_surface, (x, y))
 
 def handle_mouse(grid, item_being_held):
    if item_being_held == None:
@@ -51,6 +55,7 @@ def drag_flag(flag):
 grid = Grid()
 mouse_is_held = False
 item_being_held = None
+
 
 while True:
    for event in pygame.event.get():
