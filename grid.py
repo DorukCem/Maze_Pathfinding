@@ -9,6 +9,7 @@ class Cell:
       self.flag = None
       self.is_filled = False
       
+      
    
    def __repr__(self):
       return str(self.x) + " " + str(self.y)
@@ -22,7 +23,8 @@ class Grid:
       self.start_flag_cell = None
       self.end_flag_cell = None
       self.setup_flags()
-      print(self.start_flag_cell)
+
+      self.cell_that_switched_last = None # So that cells do not flicker
 
    def setup_flags(self):
       x = int(GRIDWITH/2)
@@ -44,7 +46,6 @@ class Grid:
    def change_flag_position(self, flag, position):
       cell_clicked = self.get_cell_being_clicked(position)
       if cell_clicked.flag != None or cell_clicked.is_filled:
-         print(cell_clicked.is_filled)
          return
       if flag == "End":
             self.end_flag_cell.flag = None

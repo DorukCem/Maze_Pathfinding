@@ -32,6 +32,11 @@ def user_draw(grid):
       switch_cell_and_filled_cell(cell_being_clicked)
 
 def switch_cell_and_filled_cell(cell):
+   if cell is grid.cell_that_switched_last:
+      return
+   else:
+      grid.cell_that_switched_last = cell
+   
    if cell.is_filled:
       cell.color = DEFAULT_COLOR
       cell.is_filled = False
