@@ -1,4 +1,4 @@
-from settings import *
+from global_objects import*
 
 class Cell:
    def __init__(self, x, y):
@@ -56,3 +56,13 @@ class Grid:
             cell_clicked.flag = "Start"
             self.start_flag_cell = cell_clicked
 
+   def draw(self):
+      for row in self.array:
+         for cell in row:
+            x,y = cell.x, cell.y
+            pygame.draw.rect(screen, cell.color , (x, y, CELL_SIZE, CELL_SIZE))
+            pygame.draw.rect(screen, cell.border_color, (x, y, CELL_SIZE, CELL_SIZE), 1)
+            if cell.flag == "Start":
+               screen.blit(start_flag_surface, (x, y))
+            if cell.flag == "End":
+               screen.blit(end_flag_surface, (x, y))

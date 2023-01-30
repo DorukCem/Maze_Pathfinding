@@ -1,32 +1,12 @@
-import pygame
 from sys import exit
-from settings import *
+from global_objects import*
 from grid import Grid
 from manager import Manager
 
 pygame.font.init()
-
-start_flag_surface = pygame.image.load("assests/start_flag.png")
-start_flag_surface = pygame.transform.scale(start_flag_surface, IMAGE_SIZE)
-end_flag_surface = pygame.image.load("assests/end_flag.png")
-end_flag_surface = pygame.transform.scale(end_flag_surface, IMAGE_SIZE)
-
 font = pygame.font.SysFont("Arial", TEXT_SIZE)
 
 pygame.init()
-screen = pygame.display.set_mode((WIDTH , HEIGHT))
-clock = pygame.time.Clock()
-
-def draw_grid(grid):
-   for row in grid.array:
-         for cell in row:
-            x,y = cell.x, cell.y
-            pygame.draw.rect(screen, cell.color , (x, y, CELL_SIZE, CELL_SIZE))
-            pygame.draw.rect(screen, cell.border_color, (x, y, CELL_SIZE, CELL_SIZE), 1)
-            if cell.flag == "Start":
-               screen.blit(start_flag_surface, (x, y))
-            if cell.flag == "End":
-               screen.blit(end_flag_surface, (x, y))
 
 def handle_mouse(grid, item_being_held):
    if item_being_held == None:
@@ -67,9 +47,10 @@ def draw_text(font):
 
 
 grid = Grid()
+manager = Manager()
 mouse_is_held = False
 item_being_held = None
-manager = Manager()
+
 text_timer = 0           #In order to show text a few seconds after scrolling
 
 
@@ -100,7 +81,7 @@ while True:
    
 
    screen.fill(BLACK)
-   draw_grid(grid)
+   grid.draw()
    if text_timer:
       draw_text(font)
       text_timer -= 1

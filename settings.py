@@ -1,3 +1,6 @@
+import pygame
+
+
 WIDTH = 900
 HEIGHT = 600
 CELL_SIZE = 30
@@ -17,3 +20,6 @@ TEXT_COLOR = "WHITE"
 FONT = "Arial"
 TEXT_SIZE = 25
 TEXT_TIME = 180
+
+
+
