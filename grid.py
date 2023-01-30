@@ -9,8 +9,6 @@ class Cell:
       self.flag = None
       self.is_filled = False
       
-      
-   
    def __repr__(self):
       return str(self.x) + " " + str(self.y)
 

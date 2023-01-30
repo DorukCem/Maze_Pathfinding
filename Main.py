@@ -2,11 +2,16 @@ import pygame
 from sys import exit
 from settings import *
 from grid import Grid
+from manager import Manager
+
+pygame.font.init()
 
 start_flag_surface = pygame.image.load("assests/start_flag.png")
 start_flag_surface = pygame.transform.scale(start_flag_surface, IMAGE_SIZE)
 end_flag_surface = pygame.image.load("assests/end_flag.png")
 end_flag_surface = pygame.transform.scale(end_flag_surface, IMAGE_SIZE)
+
+font = pygame.font.SysFont("Arial", TEXT_SIZE)
 
 pygame.init()
 screen = pygame.display.set_mode((WIDTH , HEIGHT))
@@ -51,10 +56,21 @@ def switch_cell_and_filled_cell(cell):
 def drag_flag(flag):
    grid.change_flag_position(flag, pygame.mouse.get_pos())
 
+def scroll(manager, direction):
+   manager.scroll(direction)
+   
+   
+def draw_text(font):
+   text = manager.get_selected_algorithm()
+   text_surface = font.render(text, True, TEXT_COLOR)
+   screen.blit(text_surface, (10, 10))
+
 
 grid = Grid()
 mouse_is_held = False
 item_being_held = None
+manager = Manager()
+text_timer = 0           #In order to show text a few seconds after scrolling
 
 
 while True:
@@ -68,15 +84,26 @@ while True:
          mouse_is_held = True
         
       if event.type == pygame.MOUSEBUTTONUP and event.button == 1: #When M1 is released
+         grid.cell_that_switched_last = None
          mouse_is_held = False
 
+      if event.type ==  pygame.MOUSEWHEEL:
+         text_timer = TEXT_TIME
+         if event.y == 1:
+            scroll(manager, "up")
+         else:
+            scroll(manager, "down")
       
+
    if mouse_is_held:
       handle_mouse(grid, item_being_held)
-      
+   
 
    screen.fill(BLACK)
    draw_grid(grid)
+   if text_timer:
+      draw_text(font)
+      text_timer -= 1
 
    pygame.display.update()
    clock.tick(60)
