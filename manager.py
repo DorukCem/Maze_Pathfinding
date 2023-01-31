@@ -1,8 +1,9 @@
 from global_objects import*
+from breadth_first_search import BFS
 
 class Manager:
     def __init__(self):
-        self.algorithms = ["BFS", "DFS", "A*"]
+        self.algorithms = [BFS()]
         self.selected = 0
         
 
@@ -15,4 +16,7 @@ class Manager:
 
     
     def get_selected_algorithm(self):
-        return self.algorithms[self.selected]
+        return self.algorithms[self.selected].name
+    
+    def run_algorithm(self, grid):
+        self.algorithms[self.selected].run(grid)

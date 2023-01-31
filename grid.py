@@ -11,6 +11,14 @@ class Cell:
       
    def __repr__(self):
       return str(self.x) + " " + str(self.y)
+   
+   def get_array_pos(self):
+      return (int(self.y/CELL_SIZE), int(self.x/CELL_SIZE))
+
+   def get_neighbors_coords(self):
+      x,y = self.get_array_pos()
+      return [(x+1, y), (x, y+1), (x-1, y), (x, y-1)]
+   
 
 class Grid:
    def __init__(self):

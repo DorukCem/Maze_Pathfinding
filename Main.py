@@ -74,6 +74,9 @@ while True:
             scroll(manager, "up")
          else:
             scroll(manager, "down")
+         
+      if event.type == pygame .KEYDOWN and event.key == pygame.K_SPACE:
+         manager.run_algorithm(grid)
       
 
    if mouse_is_held:
