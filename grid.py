@@ -41,7 +41,10 @@ class Grid:
       self.end_flag_cell = self.array[y][x+1]
 
    def reset_grid(self):
-      self.array = [[Cell(i, j) for i in range(0, WIDTH, CELL_SIZE)] for j in range(0, HEIGHT, CELL_SIZE)]
+      for row in self.array:
+         for cell in row:
+            cell.is_filled = False
+            cell.color = DEFAULT_COLOR
 
    def get_cell_being_clicked(self, coordinate):
       x,y = coordinate

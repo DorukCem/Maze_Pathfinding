@@ -50,7 +50,7 @@ grid = Grid()
 manager = Manager()
 mouse_is_held = False
 item_being_held = None
-
+grid_needs_reset = False
 text_timer = 0           #In order to show text a few seconds after scrolling
 
 
@@ -74,10 +74,14 @@ while True:
             scroll(manager, "up")
          else:
             scroll(manager, "down")
+      
+      if event.type == pygame .KEYDOWN or event.type == pygame.MOUSEBUTTONDOWN:
+         if grid_needs_reset:
+            grid.reset_grid()
          
       if event.type == pygame .KEYDOWN and event.key == pygame.K_SPACE:
          manager.run_algorithm(grid)
-      
+         grid_needs_reset = True
 
    if mouse_is_held:
       handle_mouse(grid, item_being_held)
