@@ -14,8 +14,7 @@ class BFS:
       
         while queue:
             x,y = queue.popleft()
-            if x<0 or y<0 or x>=len(grid.array) or y> len(grid.array[0]):
-                continue
+            
             cell = grid.array[x][y]
             if cell in visit:
                 continue
@@ -24,18 +23,27 @@ class BFS:
                 continue
 
             if cell.flag == "End":
-                cell.color = "Red"
+                cell.color = FINAL_PATH_COLOR
                 break
 
             cell.color = HAS_BEEN_SEARCHED_COLOR
             neighbors = cell.get_neighbors_coords()
             for n in neighbors:
-                if n not in visit:
+                i,j = n
+                if i<0 or j<0 or i>=len(grid.array) or j> len(grid.array[0]):
+                    continue
+                neighbor_cell = grid.array[i][j]
+                if neighbor_cell not in visit:
                     queue.append(n)
+                    neighbor_cell.prev = cell
 
             grid.draw()
             pygame.display.update()
             clock.tick(20)
         
-        
-            
+        if grid.end_flag_cell.prev:
+            cell = grid.end_flag_cell.prev
+            while cell.prev:
+                cell.color = FINAL_PATH_COLOR
+                cell = cell.prev
+        grid.start_flag_cell.color = FINAL_PATH_COLOR

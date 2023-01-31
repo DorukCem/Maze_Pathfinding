@@ -8,6 +8,7 @@ class Cell:
       self.color = DEFAULT_COLOR
       self.flag = None
       self.is_filled = False
+      self.prev = None
       
    def __repr__(self):
       return str(self.x) + " " + str(self.y)
@@ -43,8 +44,9 @@ class Grid:
    def reset_grid(self):
       for row in self.array:
          for cell in row:
-            cell.is_filled = False
-            cell.color = DEFAULT_COLOR
+            if cell.is_filled == False: 
+               cell.color = DEFAULT_COLOR
+            cell.prev = None
 
    def get_cell_being_clicked(self, coordinate):
       x,y = coordinate

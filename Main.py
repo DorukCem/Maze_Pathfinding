@@ -6,7 +6,7 @@ from manager import Manager
 pygame.font.init()
 font = pygame.font.SysFont("Arial", TEXT_SIZE)
 
-pygame.init()
+pygame.init() 
 
 def handle_mouse(grid, item_being_held):
    if item_being_held == None:
@@ -75,9 +75,10 @@ while True:
          else:
             scroll(manager, "down")
       
-      if event.type == pygame .KEYDOWN or event.type == pygame.MOUSEBUTTONDOWN:
+      if event.type == pygame .KEYDOWN or (event.type == pygame.MOUSEBUTTONDOWN and event.button == 1):
          if grid_needs_reset:
             grid.reset_grid()
+            grid_needs_reset = False
          
       if event.type == pygame .KEYDOWN and event.key == pygame.K_SPACE:
          manager.run_algorithm(grid)
