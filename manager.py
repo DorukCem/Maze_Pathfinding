@@ -1,9 +1,10 @@
 from global_objects import*
 from breadth_first_search import BFS
+from depth_first_search import DFS
 
 class Manager:
     def __init__(self):
-        self.algorithms = [BFS()]
+        self.algorithms = [BFS(), DFS()]
         self.selected = 0
         
 

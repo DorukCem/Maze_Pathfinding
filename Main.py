@@ -17,7 +17,7 @@ def handle_mouse(grid, item_being_held):
 def user_draw(grid):
    x,y = pygame.mouse.get_pos()
    cell_being_clicked = grid.get_cell_being_clicked((x,y))
-   if cell.flag == None:                                  # We dont want to color the start or end flag
+   if cell_being_clicked.flag == None:                                  # We dont want to color the start or end flag
       switch_cell_and_filled_cell(cell_being_clicked)
 
 def switch_cell_and_filled_cell(cell):

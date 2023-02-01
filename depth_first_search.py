@@ -1,8 +1,8 @@
 from global_objects import *
 
-class BFS:
+class DFS:
     def __init__(self):
-        self.name = "BFS"
+        self.name = "DFS"
     
     def run(self, grid):
         start_cell = grid.start_flag_cell
@@ -34,7 +34,7 @@ class BFS:
                     continue
                 neighbor_cell = grid.array[i][j]
                 if neighbor_cell not in visit:
-                    queue.append(n)
+                    queue.appendleft(n)
                     neighbor_cell.prev = cell
 
             grid.draw()
@@ -46,4 +46,5 @@ class BFS:
             while cell.prev:
                 cell.color = FINAL_PATH_COLOR
                 cell = cell.prev
+                
         grid.start_flag_cell.color = FINAL_PATH_COLOR
