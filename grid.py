@@ -11,7 +11,10 @@ class Cell:
       self.prev = None
       
    def __repr__(self):
-      return str(self.x) + " " + str(self.y)
+      return ""#str(self.x) + " " + str(self.y)
+   
+   def __lt__(self, other):
+        return other
    
    def get_array_pos(self):
       return (int(self.y/CELL_SIZE), int(self.x/CELL_SIZE))

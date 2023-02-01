@@ -47,4 +47,4 @@ class DFS:
                 cell.color = FINAL_PATH_COLOR
                 cell = cell.prev
                 
-        grid.start_flag_cell.color = FINAL_PATH_COLOR
+            grid.start_flag_cell.color = FINAL_PATH_COLOR
