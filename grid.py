@@ -10,6 +10,10 @@ class Cell:
       self.is_filled = False
       self.prev = None
       
+      # for A*
+      self.distance_from_end = float('inf')
+      self.distance_from_start = float('inf')
+
    def __repr__(self):
       return ""#str(self.x) + " " + str(self.y)
    
@@ -50,6 +54,8 @@ class Grid:
             if cell.is_filled == False: 
                cell.color = DEFAULT_COLOR
             cell.prev = None
+            self.distance_from_end = float('inf')
+            self.distance_from_start = float('inf')
 
    def get_cell_being_clicked(self, coordinate):
       x,y = coordinate

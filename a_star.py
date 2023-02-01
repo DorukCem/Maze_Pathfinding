@@ -8,21 +8,24 @@ class A_star:
         self.start = None
         self.end = None
 
-    def evaluation_function(self, cell):
+    def distance_from_end(self, cell):
         #Since we are only doing comparisions with the distance, we can just compare them with finding the square root
         #a2 > b2 -> a > b
-        dist_from_start = (self.start.x - cell.x)**2 + (self.start.y  - cell.y )**2 #g(x)
-        dist_from_end =  (self.end.x - cell.x)**2 + (self.end.y  - cell.y )**2      #h(x)
-        return (dist_from_start + dist_from_end, dist_from_end)                                                # f(x) = g(x) + h(x)
+        return (self.end.x - cell.x)**2 + (self.end.y  - cell.y )**2      #h(x)
+                                              
+    def distance_between_cells(self, cell1, cell2):
+        return (cell1.x -cell2.x)**2 + (cell1.y - cell2.y)**2
     
+
     def run(self, grid):
         self.start = grid.start_flag_cell
         self.end = grid.end_flag_cell
         
         open = []
         closed = set()
-        heapq.heappush(open, (self.evaluation_function(self.start) ,self.start)) #We pass in as (distance, cell) so that the heap is sorted by distance
-        
+        heapq.heappush(open, (self.distance_from_end(self.start) ,self.start) ) #We pass in as (distance, cell) so that the heap is sorted by distance
+        self.start.distance_from_start = 0
+
         while open:
             _ , cell = heapq.heappop(open)
             if cell.flag == "End":
@@ -38,9 +41,18 @@ class A_star:
                 neighbor_cell = grid.array[i][j]
                 if neighbor_cell in closed or neighbor_cell.is_filled:
                     continue
-                neighbor_cell.prev = cell
-                distance = self.evaluation_function(neighbor_cell)
-                heapq.heappush(open, (distance , neighbor_cell))
+                
+                new_dist = cell.distance_from_start + self.distance_between_cells(cell, neighbor_cell) #g(x)
+                if new_dist < neighbor_cell.distance_from_start:
+                    neighbor_cell.prev = cell
+                    neighbor_cell.distance_from_start = new_dist
+                if neighbor_cell.prev == None:
+                    neighbor_cell.prev = cell
+                
+                neighbor_cell.distance_from_end = self.distance_from_end(neighbor_cell) #h(x)
+                evaluation = neighbor_cell.distance_from_end + neighbor_cell.distance_from_start #f(x) = g(x) + h(x)
+                neighbor_cell.color = "Pink"
+                heapq.heappush(open, (evaluation , neighbor_cell))
 
             grid.draw()
             pygame.display.update()
