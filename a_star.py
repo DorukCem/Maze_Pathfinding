@@ -51,7 +51,7 @@ class A_star:
                 
                 neighbor_cell.distance_from_end = self.distance_from_end(neighbor_cell) #h(x)
                 evaluation = neighbor_cell.distance_from_end + neighbor_cell.distance_from_start #f(x) = g(x) + h(x)
-                neighbor_cell.color = "Pink"
+                neighbor_cell.color = APPEND_COLOR
                 heapq.heappush(open, (evaluation , neighbor_cell))
 
             grid.draw()
