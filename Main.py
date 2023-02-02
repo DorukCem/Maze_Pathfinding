@@ -20,7 +20,7 @@ def user_draw(grid):
    if cell_being_clicked.flag == None:                                  # We dont want to color the start or end flag
       switch_cell_and_filled_cell(cell_being_clicked)
 
-def switch_cell_and_filled_cell(cell):
+def switch_cell_and_filled_cell(cell):        
    if cell is grid.cell_that_switched_last:
       return
    else:
@@ -68,7 +68,7 @@ while True:
          grid.cell_that_switched_last = None
          mouse_is_held = False
 
-      if event.type ==  pygame.MOUSEWHEEL:
+      if event.type ==  pygame.MOUSEWHEEL: #On scroll
          text_timer = TEXT_TIME
          if event.y == 1:
             scroll(manager, "up")

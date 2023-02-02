@@ -1,32 +1,5 @@
 from global_objects import*
-
-class Cell:
-   def __init__(self, x, y):
-      self.x = x
-      self.y = y
-      self.border_color = BORDER_COLOR
-      self.color = DEFAULT_COLOR
-      self.flag = None
-      self.is_filled = False
-      self.prev = None
-      
-      # for A*
-      self.distance_from_end = float('inf')
-      self.distance_from_start = float('inf')
-
-   def __repr__(self):
-      return ""#str(self.x) + " " + str(self.y)
-   
-   def __lt__(self, other):
-        return other
-   
-   def get_array_pos(self):
-      return (int(self.y/CELL_SIZE), int(self.x/CELL_SIZE))
-
-   def get_neighbors_coords(self):
-      x,y = self.get_array_pos()
-      return [(x+1, y), (x, y+1), (x-1, y), (x, y-1)]
-   
+from cell import Cell
 
 class Grid:
    def __init__(self):
@@ -54,7 +27,7 @@ class Grid:
             if cell.is_filled == False: 
                cell.color = DEFAULT_COLOR
             cell.prev = None
-            self.distance_from_end = float('inf')
+            self.distance_from_end = None
             self.distance_from_start = float('inf')
 
    def get_cell_being_clicked(self, coordinate):

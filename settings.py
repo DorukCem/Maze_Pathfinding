@@ -1,5 +1,4 @@
-import pygame
-from collections import deque
+
 
 WIDTH = 900
 HEIGHT = 600

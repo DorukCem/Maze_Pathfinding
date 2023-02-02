@@ -23,14 +23,13 @@ class DFS:
                 continue
 
             if cell.flag == "End":
-                cell.color = FINAL_PATH_COLOR
                 break
 
             cell.color = HAS_BEEN_SEARCHED_COLOR
             neighbors = cell.get_neighbors_coords()
             for n in neighbors:
                 i,j = n
-                if i<0 or j<0 or i>=len(grid.array) or j>=len(grid.array[0]):
+                if i<0 or j<0 or i>=len(grid.array) or j>=len(grid.array[0]): #Check out of bounds
                     continue
                 neighbor_cell = grid.array[i][j]
                 if neighbor_cell not in visit:
@@ -39,10 +38,11 @@ class DFS:
 
             grid.draw()
             pygame.display.update()
-            clock.tick(20)
+            clock.tick(80)
         
+        #draw final path
         if grid.end_flag_cell.prev:
-            cell = grid.end_flag_cell.prev
+            cell = grid.end_flag_cell
             while cell.prev:
                 cell.color = FINAL_PATH_COLOR
                 cell = cell.prev
