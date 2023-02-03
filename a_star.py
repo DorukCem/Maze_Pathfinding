@@ -45,7 +45,7 @@ class A_star:
                     continue
                 
                 new_distance = cell.distance_from_start + distance_between_cells(cell, neighbor_cell) #g(x)
-                if is_new_distance_better(new_distance, neighbor_cell):
+                if neighbor_cell.prev == None or is_new_distance_better(new_distance, neighbor_cell):
                     neighbor_cell.distance_from_start = new_distance
                     neighbor_cell.prev = cell
                 
@@ -66,7 +66,8 @@ class A_star:
             while cell.prev:
                 cell.color = FINAL_PATH_COLOR
                 cell = cell.prev
-                
+     
             grid.start_flag_cell.color = FINAL_PATH_COLOR
 
-# We are replacing previus nodes even when the path is longer
+        
+
