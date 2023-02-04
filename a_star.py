@@ -4,7 +4,7 @@ import math
 import heapq
 
 def distance_between_cells(cell1, cell2):
-        return (cell1.x -cell2.x)**2 + (cell1.y - cell2.y)**2
+        return abs(cell1.x -cell2.x) + abs(cell1.y - cell2.y)
 
 def is_new_distance_better(new_distance, cell):
     if new_distance < cell.distance_from_start:
