@@ -13,13 +13,13 @@ class Cell:
       
       # for A*
       self.distance_from_end = None
-      self.distance_from_start = float('inf')
+      self.distance_from_start = None
 
    def __repr__(self):
-      return ""
+      return str(self.prev == None)
    
    def __lt__(self, other): # overload comparision so that same priorty elements can break ties
-        return other
+        return self
    
    def get_array_pos(self):                                    #get index of cell 
       return (int(self.y/CELL_SIZE), int(self.x/CELL_SIZE))

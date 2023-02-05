@@ -27,8 +27,8 @@ class Grid:
             if cell.is_filled == False: 
                cell.color = DEFAULT_COLOR
             cell.prev = None
-            self.distance_from_end = None
-            self.distance_from_start = float('inf')
+            cell.distance_from_end = None
+            cell.distance_from_start = None
 
    def get_cell_being_clicked(self, coordinate):
       x,y = coordinate
