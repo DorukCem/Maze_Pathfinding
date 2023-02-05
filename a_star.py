@@ -1,7 +1,7 @@
 from global_objects import *
 from utility import *
-import math
 import heapq
+import pqdict
 
 def distance_between_cells(cell1, cell2):
         return abs(cell1.x -cell2.x) + abs(cell1.y - cell2.y)
@@ -23,18 +23,17 @@ class A_star:
         start = grid.start_flag_cell
         end = grid.end_flag_cell
         
-        open = []
+        open = pqdict.minpq()
         closed = set()
         distance = distance_between_cells(start, end)
-        heapq.heappush(open, (distance, start)) #We pass in as (distance, cell) so that the heap is sorted by distance
+        open[start] = distance #We pass in as (distance, cell) so that the heap is sorted by distance
         start.distance_from_start = 0
 
-        while open:
-            _ , cell = heapq.heappop(open) #(distance, cell)
+        while len(open):
+            cell = open.pop() 
             if cell.flag == "End":
                 break
             
-
             closed.add(cell)
             cell.color = HAS_BEEN_SEARCHED_COLOR
 
@@ -58,7 +57,7 @@ class A_star:
 
                 evaluation = neighbor_cell.distance_from_end + neighbor_cell.distance_from_start #f(x) = g(x) + h(x)
                 
-                heapq.heappush(open, (evaluation , neighbor_cell)) 
+                open[neighbor_cell] = evaluation 
                 neighbor_cell.color = APPEND_COLOR
 
             grid.draw()

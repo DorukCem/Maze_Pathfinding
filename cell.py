@@ -16,7 +16,7 @@ class Cell:
       self.distance_from_start = None
 
    def __repr__(self):
-      return str(self.prev == None)
+      return "Cell"
    
    def __lt__(self, other): # overload comparision so that same priorty elements can break ties
         return self
