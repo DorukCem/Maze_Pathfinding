@@ -2,10 +2,12 @@
 
 **Required Libraries:**
 - PyGame
+- pqdict
 
-**How to install PyGame:**
+**How to install Libaries:**
 
 `pip install pygame`
+`pip install pqdict`
 
 **Controls:**
 - Use your mouse to drag around the starting flag and end flag 
