@@ -1,5 +1,4 @@
 from time import sleep
-from global_objects import *
 from utility import *
 import heapq
 import pqdict

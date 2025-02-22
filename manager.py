@@ -1,4 +1,3 @@
-from global_objects import*
 from breadth_first_search import BFS
 from depth_first_search import DFS
 from a_star import A_star
@@ -21,5 +20,4 @@ class Manager:
         return self.algorithms[self.selected].name
     
     def run_algorithm(self, grid):
-        print("running")
         self.algorithms[self.selected].run(grid)

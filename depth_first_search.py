@@ -1,5 +1,5 @@
+from collections import deque
 from time import sleep
-from global_objects import *
 from utility import *
 
 class DFS:

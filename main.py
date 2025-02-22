@@ -1,8 +1,16 @@
 from sys import exit
 import threading
-from global_objects import *
 from grid import Grid
 from manager import Manager
+
+from settings import *
+from collections import deque
+import pygame
+
+screen = pygame.display.set_mode((WIDTH , HEIGHT))
+clock = pygame.time.Clock()
+
+
 
 pygame.font.init()
 font = pygame.font.SysFont("Arial", TEXT_SIZE)
@@ -108,7 +116,7 @@ while True:
         handle_mouse(grid, item_being_held)
 
     screen.fill(BLACK)
-    grid.draw()
+    grid.draw(screen)
     if text_timer:
         draw_text(font)
         text_timer -= 1

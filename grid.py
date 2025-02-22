@@ -1,5 +1,11 @@
-from global_objects import*
 from cell import Cell
+from settings import *
+import pygame
+
+start_flag_surface = pygame.image.load("assests/start_flag.png")
+start_flag_surface = pygame.transform.scale(start_flag_surface, IMAGE_SIZE)
+end_flag_surface = pygame.image.load("assests/end_flag.png")
+end_flag_surface = pygame.transform.scale(end_flag_surface, IMAGE_SIZE)
 
 class Grid:
    def __init__(self):
@@ -51,7 +57,7 @@ class Grid:
             cell_clicked.flag = "Start"
             self.start_flag_cell = cell_clicked
 
-   def draw(self):
+   def draw(self, screen):
       for row in self.array:
          for cell in row:
             x,y = cell.x, cell.y
