@@ -1,3 +1,4 @@
+from time import sleep
 from global_objects import *
 from utility import *
 import heapq
@@ -23,14 +24,14 @@ class A_star:
         start = grid.start_flag_cell
         end = grid.end_flag_cell
         
-        open = pqdict.minpq()
+        open_cell = pqdict.pqdict()
         closed = set()
         distance = distance_between_cells(start, end)
-        open[start] = distance #We pass in as (distance, cell) so that the heap is sorted by distance
+        open_cell[start] = distance #We pass in as (distance, cell) so that the heap is sorted by distance
         start.distance_from_start = 0
 
-        while len(open):
-            cell = open.pop() 
+        while len(open_cell):
+            cell = open_cell.pop() 
             if cell.flag == "End":
                 break
             
@@ -57,12 +58,10 @@ class A_star:
 
                 evaluation = neighbor_cell.distance_from_end + neighbor_cell.distance_from_start #f(x) = g(x) + h(x)
                 
-                open[neighbor_cell] = evaluation 
+                open_cell[neighbor_cell] = evaluation 
                 neighbor_cell.color = APPEND_COLOR
 
-            grid.draw()
-            pygame.display.update()
-            clock.tick(80)
+            sleep(0.02)
         
         #Draw final path
         draw_final_path(grid)

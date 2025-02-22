@@ -21,4 +21,5 @@ class Manager:
         return self.algorithms[self.selected].name
     
     def run_algorithm(self, grid):
+        print("running")
         self.algorithms[self.selected].run(grid)

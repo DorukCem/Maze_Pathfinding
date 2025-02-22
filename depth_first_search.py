@@ -1,3 +1,4 @@
+from time import sleep
 from global_objects import *
 from utility import *
 
@@ -37,9 +38,7 @@ class DFS:
                     queue.appendleft(n)
                     neighbor_cell.prev = cell
 
-            grid.draw()
-            pygame.display.update()
-            clock.tick(80)
+            sleep(0.02)
         
         #draw final path
         draw_final_path(grid)
