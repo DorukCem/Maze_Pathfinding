@@ -54,9 +54,10 @@ def scroll(manager, direction):
     manager.scroll(direction)
 
 
-def draw_text(font):
+def draw_text(font : pygame.font.Font):
     text = manager.get_selected_algorithm()
     text_surface = font.render(text, True, TEXT_COLOR)
+    text_surface.set_alpha(170)
     screen.blit(text_surface, (10, 10))
 
 
@@ -65,7 +66,6 @@ manager = Manager()
 mouse_is_held = False
 item_being_held = None
 grid_needs_reset = False
-text_timer = 0  # In order to show text a few seconds after scrolling
 current_th: threading.Thread | None = None
 
 while True:
@@ -93,7 +93,6 @@ while True:
                 mouse_is_held = False
 
             if event.type == pygame.MOUSEWHEEL:  # On scroll
-                text_timer = TEXT_TIME
                 if event.y == 1:
                     scroll(manager, "up")
                 else:
@@ -117,9 +116,8 @@ while True:
 
     screen.fill(BLACK)
     grid.draw(screen)
-    if text_timer:
-        draw_text(font)
-        text_timer -= 1
+    
+    draw_text(font)
 
     pygame.display.update()
     clock.tick(60)
