@@ -1,13 +1,12 @@
 # Maze path_finding
 
-**Required Libraries:**
-- PyGame
-- pqdict
-
 **How to install Libaries:**
 
-`pip install pygame`
-`pip install pqdict`
+`pip install -r requirements`
+
+**How to run:**
+
+`python3 main.py`
 
 **Controls:**
 - Use your mouse to drag around the starting flag and end flag 
