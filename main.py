@@ -24,8 +24,6 @@ alert_font = pygame.font.SysFont("Arial", ALERT_TEXT_SIZE)
 pygame.init()
 
 
-# TODO bound check when mous is out of app
-
 def handle_mouse(grid, item_being_held):
     x, y = pygame.mouse.get_pos()
     # If mouse is out of screen we get mouse pos that is equal to 0 or WIDTH-1 or HEIGHT-1
@@ -231,7 +229,6 @@ def draw_num_files_saved(saved_file_count, font: pygame.font.Font):
     text_surface = font.render(f"NUM SAVES: {saved_file_count}", True, TEXT_COLOR)
     text_surface.set_alpha(170)
     screen.blit(text_surface, (x, y))
-
 
 
 grid = Grid()
