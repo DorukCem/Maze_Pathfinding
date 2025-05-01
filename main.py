@@ -23,6 +23,7 @@ alert_font = pygame.font.SysFont("Arial", ALERT_TEXT_SIZE)
 
 pygame.init()
 
+# TODO add command line arg for scale
 
 def handle_mouse(grid, item_being_held):
     x, y = pygame.mouse.get_pos()
@@ -193,7 +194,7 @@ def draw_start_screen():
         "Controls:",
         "- Drag start/end flags with your mouse",
         "- Draw/delete walls with the mouse",
-        "- Scroll to switch algorithms",
+        "- Scroll or use UP/DOWN arrow keys to switch algorithms",
         "- Press SPACE to start/stop the algorithm",
         "- Press C to clear trails or draw to clear",
         "- Press S to save the grid (ID 0-9)",
@@ -298,6 +299,12 @@ while True:
 
                 elif event.key == pygame.K_d:
                     delete_saves(alerts)
+
+                elif event.key == pygame.K_UP:
+                    scroll(manager, "up")
+
+                elif event.key == pygame.K_DOWN:
+                    scroll(manager, "down")
 
                 elif pygame.K_0 <= event.key <= pygame.K_9:
                     number_pressed = event.key - pygame.K_0

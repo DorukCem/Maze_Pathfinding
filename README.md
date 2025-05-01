@@ -11,7 +11,7 @@
 **Controls:**
 - Use your mouse to drag around the starting flag and end flag 
 - Use your mouse to draw and delete walls
-- Use the mouse wheel to scroll between algorithm
+- Use the mouse wheel or UP/DOWN arrow keys to scroll between algorithm
 - Press Space to execute the algorithm
 - Press Space to stop the execution of an algorithm
 - Press C to clear the trails left from an algoritm, drawing anything else on the screen will also clear it.
