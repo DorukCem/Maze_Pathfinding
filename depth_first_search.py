@@ -16,6 +16,10 @@ class DFS:
         queue.append((x, y))
 
         while queue:
+            if grid.kill_thread:
+                grid.kill_thread = False
+                return
+
             x, y = queue.popleft()
 
             cell = grid.array[x][y]

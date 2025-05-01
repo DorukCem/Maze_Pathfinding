@@ -1,2 +1,3 @@
 pqdict==1.4.0
 pygame==2.6.1
+watchdog==6.0.0

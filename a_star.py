@@ -33,6 +33,10 @@ class A_star:
         start.distance_from_start = 0
 
         while len(open_cell):
+            if grid.kill_thread:
+                grid.kill_thread = False
+                return
+
             cell = open_cell.pop()
             if cell.flag == "End":
                 break
