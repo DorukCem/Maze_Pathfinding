@@ -3,7 +3,7 @@ from settings import *
 
 class Cell:
     def __init__(self, x, y):
-        # x,y are pygame coordinates and should not be confues with array position
+        # x,y are pygame coordinates and should not be confused with array position
         self.x = x
         self.y = y
         self.border_color = BORDER_COLOR

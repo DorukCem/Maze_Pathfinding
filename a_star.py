@@ -1,8 +1,6 @@
 from time import sleep
 from utility import *
-import heapq
 import pqdict
-
 
 def distance_between_cells(cell1, cell2):
     return abs(cell1.x - cell2.x) + abs(cell1.y - cell2.y)

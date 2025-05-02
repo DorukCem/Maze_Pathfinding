@@ -1,29 +1,63 @@
+import os
+import threading
 import pygame
 
+from alert import AlertManager
+from file_count import FileCountHandler
 from grid import Grid
 from manager import Manager
 from settings import *
+from watchdog.observers import Observer
+from utility import *
 
 
 class App:
     def __init__(self):
+        self.init_app()
+
+        # These are used mainly by pygame
         self.screen = pygame.display.set_mode((WIDTH, HEIGHT))
         self.clock = pygame.time.Clock()
         self.font = pygame.font.SysFont("Arial", TEXT_SIZE)
         self.alert_font = pygame.font.SysFont("Arial", ALERT_TEXT_SIZE)
-        self.manager = Manager()
+
+        self.algorithm_manager = Manager()
         self.grid = Grid()
 
-    def handle_mouse(self, item_being_held):
+        # States which the app can hold
+        self.mouse_is_held = False
+        self.flag_held = None
+        self.grid_needs_reset = False
+        self.current_thread: threading.Thread | None = None # Algorithms are run ona seperate thread so that the app can is still interactive
+        self.show_start_screen = True
+        self.alerts = AlertManager()
+        self.saved_file_count = 0 
+
+        # Monitor number of files in saved_grids
+        # (We go to the toruble of watching the directory so that external events can also be handled)
+        self.event_handler = FileCountHandler("saved_grids")
+        self.observer = Observer()
+        self.init_file_observer()
+
+    def init_app(self):
+        os.makedirs("saved_grids", exist_ok=True)
+        pygame.init()
+        pygame.font.init()
+
+    def init_file_observer(self):
+        self.observer.schedule(self.event_handler, path="saved_grids", recursive=False)
+        self.observer.start()
+
+    def handle_mouse(self):
         x, y = pygame.mouse.get_pos()
-        # If mouse is out of screen we get mouse pos that is equal to 0 or WIDTH-1 or HEIGHT-1
+        # If mouse is out of screen we do not want to handle it
         if x <= 0 or x >= WIDTH - 1 or y <= 0 or y >= HEIGHT - 1:
             return
 
-        if item_being_held == None:
+        if self.flag_held == None:
             self.user_draw((x, y))
         else:
-            self.drag_flag(item_being_held, (x, y))
+            self.drag_flag(self.flag_held, (x, y))
 
     def user_draw(self, mouse_pos):
         x, y = mouse_pos
@@ -35,6 +69,7 @@ class App:
 
     def switch_cell_and_filled_cell(self, cell):
         if cell is self.grid.cell_that_switched_last:
+            # To stop flickering when pressing a cell
             return
         else:
             self.grid.cell_that_switched_last = cell
@@ -50,10 +85,10 @@ class App:
         self.grid.change_flag_position(flag, mouse_pos)
 
     def scroll(self, direction):
-        self.manager.scroll(direction)
+        self.algorithm_manager.scroll(direction)
 
     def draw_algorithm_text(self, font: pygame.font.Font):
-        text = self.manager.get_selected_algorithm()
+        text = self.algorithm_manager.get_selected_algorithm()
         text_surface = font.render(text, True, TEXT_COLOR)
         text_surface.set_alpha(170)
         self.screen.blit(text_surface, (10, 10))
@@ -107,4 +142,98 @@ class App:
         self.screen.blit(text_surface, (x, y))
 
     def run_algorithm(self):
-        self.manager.run_algorithm(self.grid)
+        self.algorithm_manager.run_algorithm(self.grid)
+
+    def get_user_input(self):
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                exit()
+
+            if event.type == pygame.KEYDOWN:
+                if self.show_start_screen:
+                    self.show_start_screen = False
+                    continue
+
+            # Only process these inputs if no algorithm is running
+            if self.current_thread is None:
+                # --- Mouse Inputs ---
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    if event.button == 1:  # Left click
+                        cell = self.grid.get_cell_being_clicked(pygame.mouse.get_pos())
+                        self.flag_held = cell.flag
+                        self.mouse_is_held = True
+
+                        if self.grid_needs_reset:
+                            self.grid.reset_grid()
+                            self.grid_needs_reset = False
+
+                elif event.type == pygame.MOUSEBUTTONUP and event.button == 1:
+                    self.grid.cell_that_switched_last = None
+                    self.mouse_is_held = False
+
+                elif event.type == pygame.MOUSEWHEEL:
+                    self.scroll("up" if event.y == 1 else "down")
+
+                # --- Keyboard Inputs ---
+                elif event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_SPACE:
+                        th = threading.Thread(target=lambda: self.run_algorithm())
+                        th.start()
+                        self.current_thread = th
+                        self.grid_needs_reset = True
+
+                    elif event.key == pygame.K_s:
+                        save_grid(self.grid, self.alerts)
+
+                    elif event.key == pygame.K_c:
+                        self.grid.reset_grid()
+                        self.grid_needs_reset = False
+
+                    elif event.key == pygame.K_d:
+                        delete_saves(self.alerts)
+
+                    elif event.key == pygame.K_UP:
+                        self.scroll("up")
+
+                    elif event.key == pygame.K_DOWN:
+                        self.scroll("down")
+
+                    elif pygame.K_0 <= event.key <= pygame.K_9:
+                        number_pressed = event.key - pygame.K_0
+                        self.grid = load_grid(number_pressed, self.alerts) or self.grid
+
+                    elif pygame.K_KP0 <= event.key <= pygame.K_KP9:
+                        number_pressed = event.key - pygame.K_KP0
+                        self.grid = load_grid(number_pressed, self.alerts) or self.grid
+            else:
+                # Stop algorithm
+                if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
+                    self.grid.kill_thread = True
+                    self.grid.reset_grid()
+
+    def main_loop(self):
+        while True:
+            if self.current_thread is not None and not self.current_thread.is_alive():
+                self.current_thread = None
+
+            self.get_user_input()
+
+            if self.show_start_screen:
+                self.draw_start_screen()
+
+            else:
+                if self.mouse_is_held:
+                    self.handle_mouse()
+                self.alerts.filter_alerts()
+
+                self.screen.fill(BLACK)
+                self.grid.draw(self.screen)
+                self.draw_algorithm_text(self.font)
+                self.draw_num_files_saved(self.saved_file_count, self.alert_font)
+                self.alerts.draw_alerts(self.screen, self.alert_font)
+
+                self.saved_file_count = self.event_handler.get_file_count()
+
+            pygame.display.update()
+            self.clock.tick(60)

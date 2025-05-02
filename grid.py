@@ -22,7 +22,7 @@ class Grid:
         self.setup_flags()
 
         self.cell_that_switched_last = None  # So that cells do not flicker
-        self.kill_thread = False # So that we can stop threads if needed
+        self.kill_thread = False  # So that we can stop threads if needed
 
     def setup_flags(self):
         x = int(GRIDWITH / 2)

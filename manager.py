@@ -4,6 +4,7 @@ from a_star import A_star
 
 
 class Manager:
+    """ Manages the currently selected algorithm"""
     def __init__(self):
         self.algorithms = [BFS(), DFS(), A_star()]
         self.selected = 0
