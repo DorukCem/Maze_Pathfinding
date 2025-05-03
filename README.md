@@ -8,6 +8,9 @@
 
 `python3 main.py`
 
+** Settings ** 
+If the aplication is too small or too big feel free to change the SCALE variable in the settings.py folder. Loading a grid created by different settings is undefined behaviour.
+
 **Controls:**
 - Use your mouse to drag around the starting flag and end flag 
 - Use your mouse to draw and delete walls
