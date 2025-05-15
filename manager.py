@@ -20,4 +20,5 @@ class Manager:
         return self.algorithms[self.selected].name
 
     def run_algorithm(self, grid):
+        grid.reset_grid()
         self.algorithms[self.selected].run(grid)
